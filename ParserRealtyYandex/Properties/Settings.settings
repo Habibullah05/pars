@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ParserRealtyYandex.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="BaseUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://realty.yandex.ru/perm/kupit/novostrojka/</Value>
+    </Setting>
+    <Setting Name="PrefixPage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">page={CurrentId}</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
