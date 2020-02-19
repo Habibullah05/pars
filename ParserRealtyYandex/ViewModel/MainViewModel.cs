@@ -24,12 +24,12 @@ namespace ParserRealtyYandex.ViewModel
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         /// 
-        IParser<string[]> _parser;
+       
         ParserWorker<string[]> worker;
-        public MainViewModel(IParser<string[]> parser)
+        public MainViewModel(IParser<string[]> parser,IParserSettings settings)
         {
-            _parser = parser;
-            worker = new ParserWorker<string[]>(_parser);
+           
+            worker = new ParserWorker<string[]>(parser,settings);
             ////if (IsInDesignMode)
             ////{
             ////    // Code runs in Blend --> create design time data.

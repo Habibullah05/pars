@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ParserRealtyYandex.Core
@@ -37,7 +38,7 @@ namespace ParserRealtyYandex.Core
 
         #region Constructor
         public ParserWorker(IParser<T> parser) => this.parser = parser;
-        public ParserWorker(IParser<T> parser, IParserSettings parserSettings) : this(parser) => this.parserSettings = parserSettings;
+        public ParserWorker(IParser<T> parser, IParserSettings parserSettings) : this(parser) => this.Settings = parserSettings;
 
         #endregion
 
@@ -54,23 +55,38 @@ namespace ParserRealtyYandex.Core
 
         private async Task Worker()
         {
-            string page = await loader.GetSoursePages();
+            string source =  await loader.GetSoursePages();
+            var html = new HtmlParser();
+            var htmlPage = await  html.ParseDocumentAsync(source);
+            Thread.Sleep(1000);
+            string page=  parser.ParseCountPages(htmlPage);
+
             Settings.Pages = int.Parse(page);
             for (int i = 0; i < Settings.Pages; i++)
             {
-                if (!IsActive) return;
+                if (i>0)
+                 source = await loader.GetSourceByPage(i);
 
-                var source = await loader.GetSourceByPage(i);
                 var domParser = new HtmlParser();
                 var document = await domParser.ParseDocumentAsync(source);
 
-                parser.Parse(document);
-
+               string[] str = parser.Parse(document) as string[];
+               await GetBuilding(str);
 
             }
         }
 
+        private async Task GetBuilding(string[] links)
+        {
+            foreach (var item in links)
+            {
 
+            }
+        }
 
+        private async Task BuildingSerealize()
+        {
+
+        }
     }
 }

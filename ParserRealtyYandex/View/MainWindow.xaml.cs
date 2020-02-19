@@ -25,5 +25,10 @@ namespace ParserRealtyYandex
         {
             InitializeComponent();
         }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            StartButton.IsEnabled = false;
+        }
     }
 }

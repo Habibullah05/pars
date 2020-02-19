@@ -14,7 +14,7 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Name="TextBlockParse"  />
-            <Button Grid.Row="1" Name="StartButton" Command="{Binding Start_Click}" Content="Start"  />
+            <Button Grid.Row="1" Name="StartButton" Click="StartButton_Click" Command="{Binding Start_Click}" Content="Start"  />
         </Grid>
         
     </Grid>

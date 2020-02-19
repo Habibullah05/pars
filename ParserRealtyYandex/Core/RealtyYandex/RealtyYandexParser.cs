@@ -13,19 +13,26 @@ namespace ParserRealtyYandex.RealtyYandex
     {
         public string[] Parse(IHtmlDocument document)
         {
-            
-             ///var divs = document.QuerySelectorAll("SiteSnippetSearch.SitesSerp__snippet.Link.Link_js_inited.Link_size_m.Link_theme_islands").Where(item => item.Attributes["href"] != null).Select(x=>x.Attributes["href"]);
-            var divs = document.GetElementsByClassName("SitesSerp__items > div > a").Where(item => item.Attributes["href"] != null).Select(x => x.Attributes["href"].Value);
+
+            ///var divs = document.QuerySelectorAll("SiteSnippetSearch.SitesSerp__snippet.Link.Link_js_inited.Link_size_m.Link_theme_islands").Where(item => item.Attributes["href"] != null).Select(x=>x.Attributes["href"]);
+            var divs = document.QuerySelectorAll("SitesSerp__items > div:nth-child(2) > a");//.Where(item => item.Attributes["href"] != null);//.Select(x => x.TextContent);
+            List<string> vs = new List<string>();
+            foreach (var item in divs)
+            {
+                vs.Add(item.TextContent);
+            }
            
-            return divs.ToArray();
+            return vs.ToArray();
         }
 
         public string ParseCountPages(IHtmlDocument document)
         {
 
             ///var divs = document.QuerySelectorAll("SiteSnippetSearch.SitesSerp__snippet.Link.Link_js_inited.Link_size_m.Link_theme_islands").Where(item => item.Attributes["href"] != null).Select(x=>x.Attributes["href"]);
-            var divs = document.GetElementsByClassName("#root > div:nth-child(5) > div > div.SitesSerp__footer > span > span > label:nth-child(9) > button > span > a").Select(x => x.NodeValue);
-            string page = divs.Last();
+            var divs = document.QuerySelectorAll(" div:nth-child(5) > div > div.SitesSerp__footer > span > span > label:nth-child(9) > button > span > a");//.Select(x => x.TextContent);
+            string page = divs.Last().TextContent;
+            
+            
             return page;
         }
     }

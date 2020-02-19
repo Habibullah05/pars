@@ -89,6 +89,7 @@
     <Compile Include="Core\HtmlLoader.cs" />
     <Compile Include="Core\IParserWorker.cs" />
     <Compile Include="Core\ParserWorker.cs" />
+    <Compile Include="Core\RealtyYandex\Building.cs" />
     <Compile Include="Core\RealtyYandex\RealtyYandexParser.cs" />
     <Compile Include="Core\RealtyYandex\RealtyYandexSettings.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

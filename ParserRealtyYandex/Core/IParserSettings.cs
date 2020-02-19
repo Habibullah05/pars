@@ -9,6 +9,7 @@ namespace ParserRealtyYandex.Core
     public interface IParserSettings
     {
         string BaseUrl { get; set; }
+        string Prefix { get; set; }
         string PrefixSoloElement { get; set; }
         string PrefixPage { get; set; }
         int Pages { get; set; }

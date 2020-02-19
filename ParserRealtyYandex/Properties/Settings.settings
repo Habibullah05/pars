@@ -3,10 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="BaseUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://realty.yandex.ru/perm/kupit/novostrojka/</Value>
+      <Value Profile="(Default)">https://realty.yandex.ru/</Value>
     </Setting>
     <Setting Name="PrefixPage" Type="System.String" Scope="Application">
       <Value Profile="(Default)">page={CurrentId}</Value>
+    </Setting>
+    <Setting Name="Prefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">perm/kupit/novostrojka/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

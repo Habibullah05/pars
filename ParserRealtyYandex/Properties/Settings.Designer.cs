@@ -25,7 +25,7 @@ namespace ParserRealtyYandex.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://realty.yandex.ru/perm/kupit/novostrojka/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://realty.yandex.ru/")]
         public string BaseUrl {
             get {
                 return ((string)(this["BaseUrl"]));
@@ -38,6 +38,15 @@ namespace ParserRealtyYandex.Properties {
         public string PrefixPage {
             get {
                 return ((string)(this["PrefixPage"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("perm/kupit/novostrojka/")]
+        public string Prefix {
+            get {
+                return ((string)(this["Prefix"]));
             }
         }
     }
