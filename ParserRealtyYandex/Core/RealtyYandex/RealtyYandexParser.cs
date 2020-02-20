@@ -15,13 +15,19 @@ namespace ParserRealtyYandex.RealtyYandex
         {
 
             ///var divs = document.QuerySelectorAll("SiteSnippetSearch.SitesSerp__snippet.Link.Link_js_inited.Link_size_m.Link_theme_islands").Where(item => item.Attributes["href"] != null).Select(x=>x.Attributes["href"]);
-            var divs = document.QuerySelectorAll("SitesSerp__items > div:nth-child(2) > a");//.Where(item => item.Attributes["href"] != null);//.Select(x => x.TextContent);
+             var divs1 = document.QuerySelectorAll("SitesSerp__list > div > div:nth-child(2) > a");
+            var divs = document.QuerySelectorAll("#root > div:nth-child(5) > div > div.SitesSerp__list > div:nth-child(1) > div:nth-child(2) > a");//.Where(item => item.Attributes["href"] != null);//.Select(x => x.TextContent);
             List<string> vs = new List<string>();
+            List<string> vs1 = new List<string>();
             foreach (var item in divs)
             {
                 vs.Add(item.TextContent);
             }
-           
+            foreach (var item in divs1)
+            {
+                vs1.Add(item.TextContent);
+            }
+
             return vs.ToArray();
         }
 

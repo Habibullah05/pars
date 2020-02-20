@@ -55,6 +55,9 @@ namespace ParserRealtyYandex.Core
 
         private async Task Worker()
         {
+            ClassAutorization autorization = new ClassAutorization();
+            var login= await autorization.GetLoginData();
+            var str1 = await autorization.SendPost(login.Uid);
             string source =  await loader.GetSoursePages();
             var html = new HtmlParser();
             var htmlPage = await  html.ParseDocumentAsync(source);

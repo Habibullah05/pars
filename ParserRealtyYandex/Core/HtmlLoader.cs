@@ -58,6 +58,8 @@ namespace ParserRealtyYandex.Core
             //CefSharp
             using (WebClient client = new WebClient())
             {
+               //// client.Headers(h-)
+
                 data = await client.DownloadStringTaskAsync(url);
             }
             ////string url = _settings.BaseUrl;
