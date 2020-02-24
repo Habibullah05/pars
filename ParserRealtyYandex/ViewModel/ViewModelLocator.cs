@@ -16,7 +16,9 @@ using CommonServiceLocator;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using ParserRealtyYandex.Core;
+using ParserRealtyYandex.Core.RealtyYandex;
 using ParserRealtyYandex.RealtyYandex;
+using System.Collections.Generic;
 
 namespace ParserRealtyYandex.ViewModel
 {
@@ -45,9 +47,10 @@ namespace ParserRealtyYandex.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<IParser<string[]>,RealtyYandexParser>(); 
+            SimpleIoc.Default.Register<IParser<Building>,RealtyYandexParser>(); 
             SimpleIoc.Default.Register<IParserSettings, RealtyYandexSettings>();
-           // SimpleIoc.Default.Register<IParserWorker, ParserWorker<string[]>>();
+           // SimpleIoc.Default.Register<IMySerialize<List<Building>>, MySerialize<List<Building>> >();
+            // SimpleIoc.Default.Register<IParserWorker, ParserWorker<string[]>>();
 
 
 

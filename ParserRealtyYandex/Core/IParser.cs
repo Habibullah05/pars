@@ -1,11 +1,13 @@
-﻿using AngleSharp.Html.Dom;
+﻿
+using System.Collections.Generic;
 
 namespace ParserRealtyYandex.Core
 {
     public interface IParser<T> where T:class
     {
-        T Parse(IHtmlDocument document);
-        string ParseCountPages(IHtmlDocument document);
+        IEnumerable<string> ParseLinks(int page);
+        T Parse(string index);
+        int ParseCountPages();
 
     }
 }

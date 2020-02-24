@@ -8,6 +8,11 @@ using System.Xml.Serialization;
 namespace ParserRealtyYandex.Core.RealtyYandex
 {
 
+    public class Photos
+    {
+        public List<string> photo { get; set; }// = new List<string>();
+    }
+
     [XmlRoot(ElementName = "Item")]
     public class Building
     {
@@ -36,7 +41,7 @@ namespace ParserRealtyYandex.Core.RealtyYandex
 
 
         [XmlElement(ElementName = "Photos")]
-        public List<string> Photos { get; set; }
+        public Photos Photos { get; set; } = new Photos();
 
 
         [XmlElement(ElementName = "Description")]

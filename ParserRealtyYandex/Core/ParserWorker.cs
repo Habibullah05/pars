@@ -1,51 +1,33 @@
-﻿using AngleSharp.Html.Parser;
-using System;
+﻿using ParserRealtyYandex.Core.RealtyYandex;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace ParserRealtyYandex.Core
 {
     public class ParserWorker<T> where T : class
     {
-        private IParser<T> parser;
-        private IParserSettings parserSettings;
-        private HtmlLoader loader;
+        private readonly IParser<T> _parser;
+        private readonly IParserSettings _parserSettings;
+        
         public bool IsActive { get; private set; }
 
-        #region Protorties
-        public IParserSettings Settings
-        {
-            get { return parserSettings; }
-            set
-            {
-                parserSettings = value;
-                loader = new HtmlLoader(value);
-            }
-        }
-        public IParser<T> Parser
-        {
-            get { return parser; }
-            set
-            {
-                parser = value;
-            }
-        }
 
-        #endregion
 
         #region Constructor
-        public ParserWorker(IParser<T> parser) => this.parser = parser;
-        public ParserWorker(IParser<T> parser, IParserSettings parserSettings) : this(parser) => this.Settings = parserSettings;
+        public ParserWorker(IParser<T> parser) {
+            
+            this._parser = parser;
+        
+        }
+        public ParserWorker(IParser<T> parser, IParserSettings parserSettings) : this(parser) => this._parserSettings = parserSettings;
 
         #endregion
 
         public async Task Start()
         {
             IsActive = true;
-            await Worker();
+             Worker();
         }
 
         public async Task Abort()
@@ -55,41 +37,39 @@ namespace ParserRealtyYandex.Core
 
         private async Task Worker()
         {
-            ClassAutorization autorization = new ClassAutorization();
-            var login= await autorization.GetLoginData();
-            var str1 = await autorization.SendPost(login.Uid);
-            string source =  await loader.GetSoursePages();
-            var html = new HtmlParser();
-            var htmlPage = await  html.ParseDocumentAsync(source);
-            Thread.Sleep(1000);
-            string page=  parser.ParseCountPages(htmlPage);
+           // _parserSettings.Pages = _parser.ParseCountPages();
+            List<string> links = new List<string>();
+            //for (int i = 0; i < _parserSettings.Pages; i++)
+            //{
+            // links.AddRange(_parser.ParseLinks(i));             
 
-            Settings.Pages = int.Parse(page);
-            for (int i = 0; i < Settings.Pages; i++)
-            {
-                if (i>0)
-                 source = await loader.GetSourceByPage(i);
-
-                var domParser = new HtmlParser();
-                var document = await domParser.ParseDocumentAsync(source);
-
-               string[] str = parser.Parse(document) as string[];
-               await GetBuilding(str);
-
-            }
+            //}
+            links.Add("https://realty.yandex.ru/perm/kupit/novostrojka/?page=2");
+                GetBuilding(links);
         }
 
-        private async Task GetBuilding(string[] links)
+        private async Task GetBuilding(List<string> links)
         {
-            foreach (var item in links)
+            List<Building> buildings = new List<Building>();
+            for (int i = 0; i < links.Count; ++i)
             {
+                try
+                {
+                buildings.Add(_parser.Parse(links[i]) as Building);
 
+                }
+                catch (System.Exception)
+                {
+                    --i;
+                }
             }
+               BuildingSerealize(buildings);
+
         }
 
-        private async Task BuildingSerealize()
+        private async Task BuildingSerealize(List<Building> buildings)
         {
-
+           Helper<List<Building>>.SerializeT(buildings);
         }
     }
 }

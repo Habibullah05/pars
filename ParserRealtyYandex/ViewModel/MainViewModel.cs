@@ -1,6 +1,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using ParserRealtyYandex.Core;
+using ParserRealtyYandex.Core.RealtyYandex;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -20,28 +21,19 @@ namespace ParserRealtyYandex.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
-        /// 
        
-        ParserWorker<string[]> worker;
-        public MainViewModel(IParser<string[]> parser,IParserSettings settings)
+        ParserWorker<Building> worker;
+        public MainViewModel(IParser<Building> parser,IParserSettings settings)
         {
            
-            worker = new ParserWorker<string[]>(parser,settings);
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+            worker = new ParserWorker<Building>(parser,settings);
+            worker.Start();
+
+
         }
         private ICommand _start;
 
-        private ICommand books;
+
         public ICommand Start_Click => _start ?? (_start = new RelayCommand(() => { worker.Start();}));
             }
 }
