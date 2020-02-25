@@ -21,17 +21,17 @@ namespace ParserRealtyYandex.RealtyYandex
         public RealtyYandexParser(IParserSettings settings)
         {
             crhomeDriver = new ChromeDriver();
-           
+
             _settings = settings;
             Aute();
-            
+
         }
 
 
         private void Aute()
         {
             string url = "https://passport.yandex.ru/profile";
-            
+
             crhomeDriver.Navigate().GoToUrl(url);
             crhomeDriver.FindElement(By.CssSelector("#passp-field-login")).SendKeys(login);
             crhomeDriver.FindElement(By.CssSelector("#root > div > div > div.passp-flex-wrapper > div > div > div.passp-auth-content > div:nth-child(2) > div > div > div.passp-login-form > form > div.passp-button.passp-sign-in-button > button.control.button2.button2_view_classic.button2_size_l.button2_theme_action.button2_width_max.button2_type_submit.passp-form-button")).Click();
@@ -41,18 +41,18 @@ namespace ParserRealtyYandex.RealtyYandex
         }
 
 
-        public IEnumerable< string> ParseLinks(int page)
+        public IEnumerable<string> ParseLinks(int page)
         {
 
-            string url = _settings.BaseUrl + _settings.Prefix + (page > 0 ? "?"+ _settings.PrefixPage.Replace("{CurrentId}", page.ToString()) : "");
+            string url = _settings.BaseUrl + _settings.Prefix + (page > 0 ? "?" + _settings.PrefixPage.Replace("{CurrentId}", page.ToString()) : "");
             //# root > div:nth-child(5) > div > div.SitesSerp__list > div:nth-child(1) > div:nth-child(3) > a
             // # root > div:nth-child(5) > div > div.SitesSerp__list > div > div > a
             crhomeDriver.Navigate().GoToUrl(url);
             var data = crhomeDriver.FindElements(
                        By.CssSelector(" div.SitesSerp__list > div > div > a")
-                       ).Select(a=>a.GetAttribute("href"));
-            
-           
+                       ).Select(a => a.GetAttribute("href"));
+
+
 
             return data;
         }
@@ -72,45 +72,74 @@ namespace ParserRealtyYandex.RealtyYandex
         {
             crhomeDriver.Navigate().GoToUrl(url);
             Building building = new Building();
-            var str = crhomeDriver.FindElements(
-                        By.CssSelector("#about > div.SiteCardAbout__left > div > div.GalleryThumbs.SiteCardAbout__thumbs > div > div > img")
-                        );
-            building.Photos.photo.AddRange(str.Select(a => a.GetAttribute("src")));
-            building.Adress= crhomeDriver.FindElement(
+
+            building.Adress = crhomeDriver.FindElement(
                        By.CssSelector("#root > div > div.PageContent__content > div.SitePage > div.SiteCard > div:nth-child(1) > div.SiteCardHeader__wrapper.SiteCardHeader__wrapper_position_relative > div.SiteCardHeader > div > div.SiteCardHeader__left > div:nth-child(3) > div")
-                       ).Text;       
+                       ).Text;     
 
-            building.Developer = crhomeDriver.FindElement(
-                      By.CssSelector("#about > div.SiteCardAbout__right > div > div.CardDevBadge.SiteCardInfo__developer > div.CardDevBadge__text > a")
-                      ).Text;         
-
-            building.Description = crhomeDriver.FindElement(
+            string dicr = null;
+            dicr= crhomeDriver.FindElement(
                       By.CssSelector("#description > div.SiteCardDescription__text")
                       ).Text;
+            if (dicr != null)
+            {
+                building.Description = dicr;
+            }
 
             building.Deadline = crhomeDriver.FindElement(
                       By.CssSelector("#about > div.SiteCardAbout__right > div > div.SiteCardInfo__features > div:nth-child(4) > span.SiteCardInfo__features-item-value")
                       ).Text;
-            
+
             building.ResidentialСomplexName = crhomeDriver.FindElement(
                       By.CssSelector("#root > div > div.PageContent__content > div.SitePage > div.SiteCard > div:nth-child(1) > div.SiteCardHeader__wrapper.SiteCardHeader__wrapper_position_relative > div.SiteCardHeader > div > div.SiteCardHeader__left > h1")
-                      ).Text;     
+                      ).Text;
+            
+
+            try
+            {
+                building.Developer = crhomeDriver.FindElement(
+                          By.CssSelector("#about > div.SiteCardAbout__right > div > div.CardDevBadge.SiteCardInfo__developer > div.CardDevBadge__text > a")
+                          ).Text;
+            }
+            catch (Exception)
+            {
+
+                building.Developer = building.ResidentialСomplexName;
+              
+            }
            
+           
+            
+
             crhomeDriver.FindElement(
 
                       By.CssSelector("#about > div.SiteCardAbout__right > div > div.CardContacts > button ")
                       ).Click();
-            building.Phone =crhomeDriver.FindElement(
+            building.Phone = crhomeDriver.FindElement(
 
                       By.CssSelector("#about > div.SiteCardAbout__right > div > div.CardContacts > button > span")
                       ).Text;
 
-            building.Id = url.Split('/', '-', '=').Last();
-            //  building.Id = tmp.Last()==""? tmp.Skip(1).Last(): tmp.Last();
+            try
+            {
+                building.Photos.photo = crhomeDriver.FindElements(
+                               By.CssSelector("#about > div.SiteCardAbout__left > div > div.GalleryThumbs.SiteCardAbout__thumbs > div > div > img")
+                               ).Select(a => a.GetAttribute("src")).ToList();
+            }
+            catch (Exception)
+            {
+                building.Photos.photo = null;
+
+
+            }
+
+            
+            var tmp = url.Split('/', '-', '=');
+             building.Id = tmp.Last()==""? tmp[tmp.Count()-2]: tmp.Last();
 
             return building;
         }
 
-       
+
     }
 }

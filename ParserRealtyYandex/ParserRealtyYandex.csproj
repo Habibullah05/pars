@@ -112,7 +112,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\HtmlLoader.cs" />
     <Compile Include="Core\IParserWorker.cs" />
     <Compile Include="Core\LoginData.cs" />
     <Compile Include="Core\Helper.cs" />

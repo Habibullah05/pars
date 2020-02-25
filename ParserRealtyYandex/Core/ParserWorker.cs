@@ -37,15 +37,15 @@ namespace ParserRealtyYandex.Core
 
         private async Task Worker()
         {
-           // _parserSettings.Pages = _parser.ParseCountPages();
+            _parserSettings.Pages = _parser.ParseCountPages();
             List<string> links = new List<string>();
-            //for (int i = 0; i < _parserSettings.Pages; i++)
-            //{
-            // links.AddRange(_parser.ParseLinks(i));             
+            for (int i = 0; i < _parserSettings.Pages; i++)
+            {
+                links.AddRange(_parser.ParseLinks(i));
 
-            //}
-            links.Add("https://realty.yandex.ru/perm/kupit/novostrojka/?page=2");
-                GetBuilding(links);
+            }
+            //links.Add("https://realty.yandex.ru/perm/kupit/novostrojka/melanzh-561502/");
+            GetBuilding(links);
         }
 
         private async Task GetBuilding(List<string> links)
@@ -60,7 +60,7 @@ namespace ParserRealtyYandex.Core
                 }
                 catch (System.Exception)
                 {
-                    --i;
+                   
                 }
             }
                BuildingSerealize(buildings);
