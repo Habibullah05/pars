@@ -112,12 +112,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\IAuthorization.cs" />
+    <Compile Include="Core\ChromeWork.cs" />
+    <Compile Include="Core\IChromeWork.cs" />
     <Compile Include="Core\IParserWorker.cs" />
     <Compile Include="Core\LoginData.cs" />
     <Compile Include="Core\Helper.cs" />
     <Compile Include="Core\ParserWorker.cs" />
+    <Compile Include="Core\RealtyYandex\AllBuildingInfo.cs" />
     <Compile Include="Core\RealtyYandex\Building.cs" />
+    <Compile Include="Core\RealtyYandex\BuildingInfo.cs" />
+    <Compile Include="Core\RealtyYandex\RealtyYandexAuthorization.cs" />
     <Compile Include="Core\RealtyYandex\RealtyYandexParser.cs" />
+    <Compile Include="Core\RealtyYandex\RealtyYandexSelecters.cs" />
     <Compile Include="Core\RealtyYandex\RealtyYandexSettings.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

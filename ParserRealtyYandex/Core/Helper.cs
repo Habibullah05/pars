@@ -14,7 +14,7 @@ namespace ParserRealtyYandex.Core
 {
     public class Helper<T> where T : class
     {
-        private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        readonly private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         public static async Task SerializeT(T obj)
         {
             await semaphoreSlim.WaitAsync();

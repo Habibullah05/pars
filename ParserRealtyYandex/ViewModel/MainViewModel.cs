@@ -22,7 +22,7 @@ namespace ParserRealtyYandex.ViewModel
     public class MainViewModel : ViewModelBase
     {
        
-        ParserWorker<Building> worker;
+       readonly ParserWorker<Building> worker;
         public MainViewModel(IParser<Building> parser,IParserSettings settings)
         {
            
@@ -34,6 +34,6 @@ namespace ParserRealtyYandex.ViewModel
         private ICommand _start;
 
 
-        public ICommand Start_Click => _start ?? (_start = new RelayCommand(() => { worker.Start();}));
+        public ICommand Start_Click => _start ?? (_start = new RelayCommand(async() => {await worker.Start();}));
             }
 }

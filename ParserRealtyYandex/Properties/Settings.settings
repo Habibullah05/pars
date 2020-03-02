@@ -11,5 +11,14 @@
     <Setting Name="Prefix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">perm/kupit/novostrojka/</Value>
     </Setting>
+    <Setting Name="AuthorizationUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://passport.yandex.ru/profile</Value>
+    </Setting>
+    <Setting Name="Login" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">aslanov.gabil@yandex.ru</Value>
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">6475207Aslanov</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
