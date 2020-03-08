@@ -10,7 +10,7 @@ namespace ParserRealtyYandex.Core
     {
         private readonly IParser<T> _parser;
         private readonly IParserSettings _parserSettings;
-        readonly ConcurrentBag<Building> buildings; 
+      
         readonly ConcurrentBag<BuildingInfo>  buildingInfos; 
 
 
@@ -21,7 +21,7 @@ namespace ParserRealtyYandex.Core
         public ParserWorker(IParser<T> parser) { 
         
             this._parser = parser;
-            buildings = new ConcurrentBag<Building>();
+            //buildings = new ConcurrentBag<Building>();
             buildingInfos = new ConcurrentBag<BuildingInfo>();
         }        
         
@@ -33,41 +33,41 @@ namespace ParserRealtyYandex.Core
         public async Task Start()
         {
           
-            await Worker();
+             Worker();
         }
 
        
         private async Task Worker()
         {
-            _parserSettings.Pages = _parser.ParseCountPages();
+           // _parserSettings.Pages = _parser.ParseCountPages();
             List<string> links = new List<string>();
-            for (int i = 0; i < _parserSettings.Pages; i++)
-            {
-               // links.AddRange();
-            await  GetBuilding(_parser.ParseLinks(i).ToList());
+            //for (int i = 0; i < _parserSettings.Pages; i++)
+            //{
+            //    links.AddRange(_parser.ParseLinks(i));
 
-            }
-            //links.Add("https://realty.yandex.ru/perm/kupit/novostrojka/motovilihinsky-553773/");
+            //}
+             links.Add("https://realty.yandex.ru/perm/kupit/novostrojka/kirovogradskaya-180-549967/");
+             GetBuilding(links.ToArray());
 
         }
 
-        private async Task GetBuilding(List<string> links)
+        private async Task GetBuilding(string[] links)
         {
            
-            for (int i = 0; i < links.Count; ++i)
+            for (int i = 0; i < links.Count(); ++i)
             {
-               
-                buildings.Add(_parser.Parse(links[i]) as Building);
+
+                buildingInfos.Add(_parser.Parse(links[i]) as BuildingInfo);
 
                 
             }
-               await BuildingSerealize(buildings);
+               await BuildingSerealize(buildingInfos);
 
         }
 
-        private async Task BuildingSerealize(ConcurrentBag<Building> buildings)
+        private async Task BuildingSerealize(ConcurrentBag<BuildingInfo> buildings)
         {
-          await Helper<ConcurrentBag<Building>>.SerializeT(buildings);
+          await Helper<ConcurrentBag<BuildingInfo>>.SerializeT(buildings);
         }
     }
 }

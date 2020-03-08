@@ -22,18 +22,13 @@ namespace ParserRealtyYandex.ViewModel
     public class MainViewModel : ViewModelBase
     {
        
-       readonly ParserWorker<Building> worker;
-        public MainViewModel(IParser<Building> parser,IParserSettings settings)
-        {
-           
-            worker = new ParserWorker<Building>(parser,settings);
-            worker.Start();
-
-
+       readonly ParserWorker<BuildingInfo> worker;
+        public MainViewModel(IParser<BuildingInfo> parser,IParserSettings settings)
+        {           
+            worker = new ParserWorker<BuildingInfo>(parser,settings);
+            //worker.Start();
         }
+
         private ICommand _start;
-
-
-        public ICommand Start_Click => _start ?? (_start = new RelayCommand(async() => {await worker.Start();}));
-            }
+        public ICommand Start_Click => _start ?? (_start = new RelayCommand(async() => {await worker.Start();}));}
 }

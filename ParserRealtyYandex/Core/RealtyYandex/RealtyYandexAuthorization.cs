@@ -9,13 +9,9 @@ namespace ParserRealtyYandex.Core.RealtyYandex
     public class RealtyYandexAuthorization : IAuthorization
     {
         public string Url {get;}
-
         public string Login {get;}
-
         public string Password {get;}
-
         public string LoginInputSelect {get;}
-
         public string PasswordInputSelet {get;}
         public string ButtonLoginSelect { get;  }
         public string ButtonPasswordSelect { get;}

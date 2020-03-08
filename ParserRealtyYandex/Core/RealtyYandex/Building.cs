@@ -10,7 +10,7 @@ namespace ParserRealtyYandex.Core.RealtyYandex
 
     public class Photos
     {
-        public List<string> photo { get; set; }// = new List<string>();
+        public List<string> ListPhotos { get; set; }// = new List<string>();
     }
 
     [XmlRoot(ElementName = "Item")]

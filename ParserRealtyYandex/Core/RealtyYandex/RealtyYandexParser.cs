@@ -9,10 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ParserRealtyYandex.RealtyYandex
 {
-    public class RealtyYandexParser : IParser<Building>
+    public class RealtyYandexParser : IParser<BuildingInfo>
     {
         readonly IParserSettings _settings;
         readonly IChromeWork _chromeWork;
@@ -49,56 +50,59 @@ namespace ParserRealtyYandex.RealtyYandex
 
             return Int32.Parse(data);
         }
-
-        public Building Parse(string url)
+        private Building ParseBuilding()
         {
-           // ChromeWork work = _chromeWork.
-            _chromeWork.AddNewTab(url);
             var building = new Building();
 
             building.Adress = _chromeWork.GetTextBySelector(_selecters.AdressSelect);
-            
-            try
-            {
-
-
-                building.Description = _chromeWork.GetTextBySelector(_selecters.DescriptionSelect);
-            }
-            catch (Exception)
-            {
-
-                building.Description = null;
-            }
-
-
-
+            try { building.Description = _chromeWork.GetTextBySelector(_selecters.DescriptionSelect); }
+            catch { building.Description = null; }
             building.Deadline = _chromeWork.GetTextBySelector(_selecters.DeadlineSelect);
-
             building.ResidentialСomplexName = _chromeWork.GetTextBySelector(_selecters.ResidentialСomplexNameSelect);
-
-
             try { building.Developer = _chromeWork.GetTextBySelector(_selecters.DeveloperSelect); }
             catch { building.Developer = building.ResidentialСomplexName; }
-
             _chromeWork.ClickBySelector(_selecters.PhoneButtonSelect);
             building.Phone = _chromeWork.GetTextBySelector(_selecters.PhoneSelect);
-            try
-            {
-                building.Photos.photo = _chromeWork.GetSelectAttributeBySelector(_selecters.PhoneSelect, "src").ToList();
-
-            }
-            catch (Exception)
-            {
-                building.Photos.photo = null;
-
-
-            }
-
-
-            var tmp = url.Split('/', '-', '=');
-            building.Id = tmp.Last() == "" ? tmp[tmp.Count() - 2] : tmp.Last();
+            try { building.Photos.ListPhotos = _chromeWork.GetSelectAttributeBySelector(_selecters.PhoneSelect, "src").ToList(); }
+            catch { building.Photos.ListPhotos = null; }
 
             return building;
+
+        }
+        private DescriptionJK ParseDesc()
+        {
+            var desc = new DescriptionJK();
+
+            desc.NumberBuildings = _chromeWork.GetTextBySelector(_selecters.NumberBuildingsSelect);
+            desc.CountApartaments = _chromeWork.GetTextBySelector(_selecters.CountApartamentsSelect);
+            desc.Facing = _chromeWork.GetTextBySelector(_selecters.FacingSelect);
+            desc.ParkingSpaces = _chromeWork.GetTextBySelector(_selecters.ParkingSpacesSelect);
+            desc.Storeys = _chromeWork.GetTextBySelector(_selecters.StoreysSelect);
+            desc.TypeHouse = _chromeWork.GetTextBySelector(_selecters.TypeHouseSelect);
+            desc.Queues = _chromeWork.GetTextBySelector(_selecters.QueuesSelect);
+            desc.TypeContract = _chromeWork.GetTextBySelector(_selecters.TypeContractSelect);
+
+
+
+
+            return desc;
+
+        }
+
+        public BuildingInfo Parse(string url)
+        {
+            BuildingInfo info = new BuildingInfo();
+            string[] tmp = url.Split('/');
+            _chromeWork.SetUrl(url);
+
+
+           // info.Id = tmp.Last() == "" ? tmp[tmp.Count() - 2] : tmp.Last();
+            info.Building =  ParseBuilding();
+            info.Description =  ParseDesc();
+            //# flats > div > table > tbody > tr:nth-child(1) > td:nth-child(5) > span
+            //# flats > div > table > tbody > tr:nth-child(2) > td:nth-child(5) > span
+            return null;
+
         }
 
 

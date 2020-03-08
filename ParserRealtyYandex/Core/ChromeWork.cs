@@ -28,10 +28,10 @@ namespace ParserRealtyYandex.Core
             SetUrl(_authorization.Url);
             SetInputValue(_authorization.LoginInputSelect, _authorization.Login);
             ClickBySelector(_authorization.ButtonLoginSelect);
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
             SetInputValue(_authorization.PasswordInputSelet, _authorization.Password);
             ClickBySelector(_authorization.ButtonPasswordSelect);
-            _crhomeDriver.Navigate().GoToUrl(_authorization.Url);
+           
 
         }
 
@@ -44,6 +44,10 @@ namespace ParserRealtyYandex.Core
         public string GetTextBySelector(string select)
         {
 
+            if (FintElemetBySelector(select)==null)
+            {
+                return null;
+            }
             return FintElemetBySelector(select).Text;
         }
 
